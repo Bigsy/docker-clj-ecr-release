@@ -1,0 +1,1 @@
+Testing ecr docker releases from clojure
