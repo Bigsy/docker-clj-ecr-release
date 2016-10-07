@@ -48,7 +48,8 @@
         :threads "254"}
   
   :lein-release {:deploy-via :shell
-                 :shell ["lein" "do" "clean," "uberjar," "pom,"]}
+                 :scm :git
+                 :shell ["lein" "do" "clean," "uberjar"]}
 
   :ring {:handler docker-release.web/app
          :main docker-release.setup
