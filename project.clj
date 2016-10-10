@@ -22,7 +22,6 @@
                org.clojure/clojure]
 
   :plugins [[lein-environ "1.0.0"]
-            [lein-release "1.0.5"]
             [lein-ring "0.8.12"]]
   
   :env {:auto-reload "true"
@@ -46,10 +45,6 @@
         :shutdown-timeout-millis "5000"
         :start-timeout-seconds "120"
         :threads "254"}
-  
-  :lein-release {:deploy-via :shell
-                 :scm :git
-                 :shell ["lein" "do" "clean," "uberjar"]}
 
   :ring {:handler docker-release.web/app
          :main docker-release.setup
@@ -70,6 +65,15 @@
                    
                    :plugins [[lein-kibit "0.0.8"]
                              [lein-midje "3.1.3"]]}}
+
+  :release-tasks [["vcs" "assert-committed"]
+                  ["change" "version" "leiningen.release/bump-version" "release"]
+                  ["vcs" "commit"]
+                  ["vcs" "tag"]
+                  ["deploy"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["vcs" "commit"]
+                  ["vcs" "push"]]
 
   :aot [docker-release.setup]
 
