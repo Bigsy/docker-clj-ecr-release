@@ -1,4 +1,4 @@
-(defproject docker-release "1.0.0-SNAPSHOT"
+(defproject docker-release "1.0.0"
   :description "Docker-release service"
 
   :dependencies [[ch.qos.logback/logback-classic "1.1.3"]
