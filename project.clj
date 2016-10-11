@@ -64,7 +64,12 @@
                                   [rest-cljer "0.1.20"]]
                    
                    :plugins [[lein-kibit "0.0.8"]
-                             [lein-midje "3.1.3"]]}}
+                             [lein-midje "3.1.3"]
+                             [io.sarnowski/lein-docker "1.1.0"]]}}
+
+  :docker {:image-name "wibble/myimage"
+           :dockerfile "scripts/docker/Dockerfile"
+           :build-dir  "target"}
 
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
@@ -72,6 +77,7 @@
                   ["vcs" "tag" "--no-sign"]
                   ["clean"]
                   ["uberjar"]
+                  ["docker" "build"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["vcs" "commit"]
                   ["vcs" "push"]]
@@ -79,3 +85,5 @@
   :aot [docker-release.setup]
 
   :main docker-release.setup)
+
+;https://293486771097.dkr.ecr.eu-west-1.amazonaws.com
