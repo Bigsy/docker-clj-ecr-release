@@ -65,11 +65,13 @@
                    
                    :plugins [[lein-kibit "0.0.8"]
                              [lein-midje "3.1.3"]
+                             [com.palletops/uberimage "0.4.1"]
                              [io.sarnowski/lein-docker "1.1.0"]]}}
 
-  :docker {:image-name "wibble/myimage"
-           :dockerfile "scripts/docker/Dockerfile"
-           :build-dir  "target"}
+  :uberimage {;:cmd ["/bin/dash" "/myrunscript" "param1" "param2"]
+              :instructions ["RUN apt-get update && apt-get -y dist-upgrade"]
+              ;:files {"myrunscript" "docker/myrunscript"}
+              :tag "wibble/blah:somthing"}
 
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
@@ -77,13 +79,14 @@
                   ["vcs" "tag" "--no-sign"]
                   ["clean"]
                   ["uberjar"]
-                  ["docker" "build"]
+                  ["lein" "uberimage"]
+                  ;["docker" "build"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["vcs" "commit"]
                   ["vcs" "push"]]
 
   :aot [docker-release.setup]
-
+git add
   :main docker-release.setup)
 
 ;https://293486771097.dkr.ecr.eu-west-1.amazonaws.com
